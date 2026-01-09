@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prompt Engineering | Post-Board Skill Bootcamp</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #050505;
+            color: #e5e7eb;
+            overflow-x: hidden;
+        }
+
+        .gemini-gradient {
+            background: linear-gradient(135deg, #4b91f7 0%, #a670f0 50%, #f76cc6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .bg-glow {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(75, 145, 247, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+            filter: blur(60px);
+            z-index: -1;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .glass-card:hover {
+            border-color: rgba(75, 145, 247, 0.4);
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateY(-4px);
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, #4b91f7, #a670f0);
+            transition: opacity 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            opacity: 0.9;
+        }
+
+        details > summary {
+            list-style: none;
+        }
+        details > summary::-webkit-details-marker {
+            display: none;
+        }
+        
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .tool-icon {
+            filter: grayscale(1) invert(0.5);
+            transition: all 0.3s ease;
+        }
+        .tool-icon:hover {
+            filter: grayscale(0) invert(0);
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 px-6 py-4 flex justify-between items-center border-b border-white/5 bg-black/50 backdrop-blur-md">
+        <div class="flex items-center space-x-3">
+            <div class="flex items-center justify-center w-9 h-9 rounded-lg bg-gradient-to-tr from-blue-600 to-purple-600 shadow-lg shadow-blue-500/20">
+                <svg viewBox="0 0 24 24" class="w-5 h-5 text-white fill-current">
+                    <path d="M8 5v14l11-7zM20 12l-1.5 1.5L17 12l1.5-1.5zM15 5l-1.5 1.5L12 5l1.5-1.5zM15 19l-1.5 1.5L12 19l1.5-1.5z"/>
+                </svg>
+            </div>
+            <span class="font-bold text-xl tracking-tight uppercase">Prompt Engineering</span>
+        </div>
+        <div class="hidden md:flex space-x-8 text-sm font-medium text-gray-400">
+            <a href="#vision" class="hover:text-white transition-colors">Vision</a>
+            <a href="#curriculum" class="hover:text-white transition-colors">Curriculum</a>
+            <a href="#tools" class="hover:text-white transition-colors">Tools</a>
+            <a href="#faq" class="hover:text-white transition-colors">FAQ</a>
+        </div>
+        <button class="px-5 py-2 bg-white text-black rounded-full text-sm font-semibold hover:bg-gray-200 transition-colors">
+            Enroll Now
+        </button>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative pt-32 pb-20 px-6 overflow-hidden min-h-[80vh] flex items-center">
+        <div class="bg-glow -top-40 -left-20"></div>
+        <div class="bg-glow top-40 -right-20" style="background: radial-gradient(circle, rgba(166, 112, 240, 0.1) 0%, rgba(0, 0, 0, 0) 70%);"></div>
+        
+        <div class="max-w-6xl mx-auto flex flex-col items-center text-center">
+            <div class="inline-block px-4 py-1.5 mb-6 border border-white/10 rounded-full bg-white/5 text-sm font-medium text-blue-400">
+                Post-Board Skill Bootcamp for Std. 12
+            </div>
+            <h1 class="text-5xl md:text-8xl font-bold mb-6 tracking-tight leading-tight">
+                PROMPT ENGINEERING <br>
+                <span class="gemini-gradient">Talk to AI. Think Better.</span>
+            </h1>
+            <p class="text-xl text-gray-400 max-w-2xl mx-auto mb-10">
+                AI doesn't replace students. Students who know how to ask will lead. Master the art of intelligent collaboration with the world's most advanced systems.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4 mb-16">
+                <button class="btn-primary w-full sm:w-auto px-8 py-4 rounded-full font-bold text-lg shadow-lg shadow-blue-500/20">
+                    Get Started Now
+                </button>
+                <button id="view-details-btn" class="w-full sm:w-auto px-8 py-4 rounded-full border border-white/20 bg-white/5 font-semibold hover:bg-white/10 transition-colors">
+                    View Course Details
+                </button>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-4xl mx-auto">
+                <div class="p-4 glass-card rounded-2xl">
+                    <div class="text-gray-400 text-xs mb-1 uppercase tracking-widest">Duration</div>
+                    <div class="text-xl font-semibold">10–15 Hours</div>
+                </div>
+                <div class="p-4 glass-card rounded-2xl">
+                    <div class="text-gray-400 text-xs mb-1 uppercase tracking-widest">Mode</div>
+                    <div class="text-xl font-semibold">Online Live</div>
+                </div>
+                <div class="p-4 glass-card rounded-2xl">
+                    <div class="text-gray-400 text-xs mb-1 uppercase tracking-widest">Eligibility</div>
+                    <div class="text-xl font-semibold">Std. 12 Students</div>
+                </div>
+                <div class="p-4 glass-card rounded-2xl">
+                    <div class="text-gray-400 text-xs mb-1 uppercase tracking-widest">Fee</div>
+                    <div class="text-xl font-semibold text-green-400">Join Free</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Vision Section -->
+    <section id="vision" class="py-20 px-6">
+        <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+            <div>
+                <h2 class="text-3xl md:text-5xl font-bold mb-6 leading-tight">Prompt Engineering is <br><span class="text-blue-400">not coding.</span></h2>
+                <p class="text-gray-400 text-lg leading-relaxed mb-6">
+                    It is the skill of asking the right questions. We train students to think clearly, express ideas precisely, and use AI responsibly.
+                </p>
+                <ul class="space-y-4">
+                    <li class="flex items-start space-x-3">
+                        <svg class="w-6 h-6 text-blue-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        <span>Think clearly and logically</span>
+                    </li>
+                    <li class="flex items-start space-x-3">
+                        <svg class="w-6 h-6 text-purple-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        <span>Convert thoughts into creative outputs</span>
+                    </li>
+                    <li class="flex items-start space-x-3">
+                        <svg class="w-6 h-6 text-pink-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        <span>Avoid dependency; master collaboration</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="relative">
+                <div class="aspect-square glass-card rounded-3xl overflow-hidden animate-float">
+                    <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=800" 
+                         alt="Students Collaborating" 
+                         class="w-full h-full object-cover opacity-60">
+                    <div class="absolute inset-0 flex items-center justify-center p-8 bg-black/40 text-center">
+                        <p class="italic text-xl font-medium text-white">"The goal is not dependency on AI, but intelligent collaboration with AI."</p>
+                    </div>
+                </div>
+                <!-- Decorative element -->
+                <div class="absolute -z-10 -bottom-6 -right-6 w-full h-full border border-blue-500/20 rounded-3xl"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tools & Platforms Section -->
+    <section id="tools" class="py-24 px-6 bg-white/[0.02]">
+        <div class="max-w-6xl mx-auto text-center">
+            <h3 class="text-blue-400 text-sm uppercase tracking-[0.3em] mb-4 font-bold">The AI Powerhouse</h3>
+            <h2 class="text-4xl font-bold mb-16">Learn to prompt the giants</h2>
+            
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- ChatGPT -->
+                <div class="glass-card p-10 rounded-3xl flex flex-col items-center group">
+                    <div class="w-16 h-16 mb-6 tool-icon flex items-center justify-center">
+                         <svg viewBox="0 0 24 24" class="w-12 h-12 fill-current text-white"><path d="M22.2819 9.8211a5.9847 5.9847 0 0 0-.5153-4.9022 6.0462 6.0462 0 0 0-3.9998-2.8271 6.0417 6.0417 0 0 0-5.1877 1.2556 6.039 6.039 0 0 0-3.833-1.7412 6.0455 6.0455 0 0 0-5.1813 2.7381 6.023 6.023 0 0 0-.567 4.9425 6.079 6.079 0 0 0-2.0233 3.1306 6.0587 6.0587 0 0 0 .9656 5.3404 6.0505 6.0505 0 0 0 5.0977 2.3394 6.0146 6.0146 0 0 0 3.8605 1.7173 6.0504 6.0504 0 0 0 5.1874-2.6502 6.0106 6.0106 0 0 0 .6106-4.9632 6.0691 6.0691 0 0 0 2.0111-3.1743 6.0467 6.0467 0 0 0-.9657-5.3404zm-9.3007 10.9974a3.7127 3.7127 0 0 1-2.2726-.7754l.1152-.0661 5.3585-3.0827a.52.52 0 0 0 .2601-.4503V8.9103l2.5165 1.4533a.007.007 0 0 1 .0035.0062v5.8565a3.7118 3.7118 0 0 1-5.9812 3.5922zM4.417 16.0373a3.713 3.713 0 0 1-.31-2.3876l.1151.0664 5.3585 3.0824a.5208.5208 0 0 0 .52 0l7.533-4.3496-2.5165-1.4533a.007.007 0 0 1-.0035-.0062L10.0579 5.433a3.715 3.715 0 0 1 5.4858-1.327l-.1151.0662-5.3585 3.0827a.5208.5208 0 0 0-.26.4503v8.6993l-2.5165-1.4533a.007.007 0 0 1-.0035-.0062l-2.8721-5.558zm3.0336-11.458a3.713 3.713 0 0 1 2.2726.7754l-.1151.0662-5.3585 3.0827a.5208.5208 0 0 0-.2601.4503v7.5369l-2.5165-1.4533a.007.007 0 0 1-.0035-.0062V9.0748a3.7118 3.7118 0 0 1 5.9812-3.5922zm11.2325 3.3834l-.1152-.0664-5.3585-3.0824a.5208.5208 0 0 0-.52 0l-7.533 4.3496 2.5165-1.4533a.007.007 0 0 1 .0035.0062l5.0562 5.5574a3.715 3.715 0 0 1-5.4858 1.327l.1151-.0662 5.3585-3.0827a.5208.5208 0 0 0 .26-.4503V6.5057l2.5165 1.4533a.007.007 0 0 1 .0035.0062l2.8721 5.558zm-1.0336 11.458a3.713 3.713 0 0 1-2.2726-.7754l.1151-.0662 5.3585-3.0827a.5208.5208 0 0 0 .2601-.4503V7.54l2.5165 1.4533a.007.007 0 0 1 .0035.0062v5.8565a3.7118 3.7118 0 0 1-5.9812 3.5922zm-7.6583-11.4173l7.533-4.3496-2.5165-1.4533a.007.007 0 0 1-.0035-.0062L10.0579 2.5413a3.715 3.715 0 0 1 5.4858 1.327l-.1151.0662-5.3585 3.0827a.5208.5208 0 0 0-.26.4503v8.6993l-2.5165-1.4533a.007.007 0 0 1-.0035-.0062l-2.8721-5.558z"/></svg>
+                    </div>
+                    <h4 class="text-xl font-bold mb-2">ChatGPT</h4>
+                    <p class="text-gray-500 text-sm">Primary Logic & Language Tool</p>
+                </div>
+
+                <!-- Google Gemini -->
+                <div class="glass-card p-10 rounded-3xl flex flex-col items-center group">
+                    <div class="w-16 h-16 mb-6 tool-icon flex items-center justify-center">
+                        <svg viewBox="0 0 24 24" class="w-12 h-12 text-blue-400 fill-current"><path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z"/></svg>
+                    </div>
+                    <h4 class="text-xl font-bold mb-2">Google Gemini</h4>
+                    <p class="text-gray-500 text-sm">Real-time Search & Integration</p>
+                </div>
+
+                <!-- Claude -->
+                <div class="glass-card p-10 rounded-3xl flex flex-col items-center group">
+                    <div class="w-16 h-16 mb-6 tool-icon flex items-center justify-center">
+                        <svg viewBox="0 0 24 24" class="w-12 h-12 text-orange-200 fill-current"><path d="M12 3L4 21H6.5L8.5 16H15.5L17.5 21H20L12 3ZM9.5 14L12 8L14.5 14H9.5Z"/></svg>
+                    </div>
+                    <h4 class="text-xl font-bold mb-2">Claude</h4>
+                    <p class="text-gray-500 text-sm">Nuanced Writing & Reasoning</p>
+                </div>
+
+                <!-- Perplexity -->
+                <div class="glass-card p-10 rounded-3xl flex flex-col items-center group">
+                    <div class="w-16 h-16 mb-6 tool-icon flex items-center justify-center">
+                        <svg viewBox="0 0 24 24" class="w-12 h-12 text-green-400 fill-none stroke-current stroke-2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><path d="M12 3v18M3 12h18"/></svg>
+                    </div>
+                    <h4 class="text-xl font-bold mb-2">Perplexity</h4>
+                    <p class="text-gray-500 text-sm">Fact-Checking & Research</p>
+                </div>
+            </div>
+
+            <p class="mt-16 text-gray-500 text-sm italic">All tools are used in their free tiers. No subscriptions required for students.</p>
+        </div>
+    </section>
+
+    <!-- Curriculum Section -->
+    <section id="curriculum" class="py-24 px-6">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-6xl font-bold mb-4">Detailed Curriculum</h2>
+                <p class="text-gray-400 text-xl">10–15 Hours of Action-Packed Learning</p>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-12 items-start">
+                <div class="space-y-4">
+                    <!-- Module 1 -->
+                    <details class="group glass-card rounded-2xl overflow-hidden" open>
+                        <summary class="flex justify-between items-center p-6 cursor-pointer select-none">
+                            <div class="flex items-center space-x-4">
+                                <span class="w-8 h-8 flex items-center justify-center rounded-full bg-blue-500/20 text-blue-400 font-bold text-sm">01</span>
+                                <div>
+                                    <h3 class="font-semibold text-lg">What is Prompt Engineering?</h3>
+                                    <p class="text-xs text-gray-500">Theme: Asking is a skill • 1.5 Hours</p>
+                                </div>
+                            </div>
+                            <svg class="w-5 h-5 text-gray-500 group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </summary>
+                        <div class="px-6 pb-6 pt-2 border-t border-white/5">
+                            <div class="grid grid-cols-1 gap-4 text-sm">
+                                <p class="text-gray-400">Discover what AI really does (and doesn't do) and why clarity of thought matters more than technology. Activity: Same question, different prompts.</p>
+                            </div>
+                        </div>
+                    </details>
+
+                    <!-- Module 2 -->
+                    <details class="group glass-card rounded-2xl overflow-hidden">
+                        <summary class="flex justify-between items-center p-6 cursor-pointer">
+                            <div class="flex items-center space-x-4">
+                                <span class="w-8 h-8 flex items-center justify-center rounded-full bg-purple-500/20 text-purple-400 font-bold text-sm">02</span>
+                                <div>
+                                    <h3 class="font-semibold text-lg">How AI Thinks</h3>
+                                    <p class="text-xs text-gray-500">Theme: Machine Mindset • 2 Hours</p>
+                                </div>
+                            </div>
+                            <svg class="w-5 h-5 text-gray-500 group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </summary>
+                        <div class="px-6 pb-6 pt-2 border-t border-white/5 text-sm text-gray-400">
+                            Learn about language processing, context, and intent. Identify why vague prompts fail and how structure guides the model.
+                        </div>
+                    </details>
+
+                    <!-- Module 3 -->
+                    <details class="group glass-card rounded-2xl overflow-hidden">
+                        <summary class="flex justify-between items-center p-6 cursor-pointer">
+                            <div class="flex items-center space-x-4">
+                                <span class="w-8 h-8 flex items-center justify-center rounded-full bg-pink-500/20 text-pink-400 font-bold text-sm">03</span>
+                                <div>
+                                    <h3 class="font-semibold text-lg">The Prompt Framework</h3>
+                                    <p class="text-xs text-gray-500">Theme: Structure brings Power • 2.5 Hours</p>
+                                </div>
+                            </div>
+                            <svg class="w-5 h-5 text-gray-500 group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </summary>
+                        <div class="px-6 pb-6 pt-2 border-t border-white/5">
+                            <div class="bg-white/5 p-4 rounded-xl mb-4 text-center border border-white/10">
+                                <span class="text-blue-400 font-mono text-xs font-bold uppercase tracking-widest">Master Formula</span>
+                                <p class="text-lg font-bold mt-1">Role → Task → Context → Constraints → Output</p>
+                            </div>
+                            <p class="text-sm text-gray-400">Students rewrite basic prompts using the framework and participate in peer reviews.</p>
+                        </div>
+                    </details>
+
+                    <!-- Hidden Modules Container -->
+                    <div id="extra-modules" class="hidden space-y-4">
+                        <!-- Module 4 -->
+                        <details class="group glass-card rounded-2xl overflow-hidden">
+                            <summary class="flex justify-between items-center p-6 cursor-pointer">
+                                <div class="flex items-center space-x-4">
+                                    <span class="w-8 h-8 flex items-center justify-center rounded-full bg-indigo-500/20 text-indigo-400 font-bold text-sm">04</span>
+                                    <div>
+                                        <h3 class="font-semibold text-lg">Prompting for Students</h3>
+                                        <p class="text-xs text-gray-500">Theme: Study smarter, not harder • 2.5 Hours</p>
+                                    </div>
+                                </div>
+                                <svg class="w-5 h-5 text-gray-500 group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </summary>
+                            <div class="px-6 pb-6 pt-2 border-t border-white/5 text-sm text-gray-400">
+                                Build a "Study Prompt Toolkit". Use AI for understanding difficult topics, making summaries, and preparing for exams.
+                            </div>
+                        </details>
+
+                        <!-- Module 5 -->
+                        <details class="group glass-card rounded-2xl overflow-hidden">
+                            <summary class="flex justify-between items-center p-6 cursor-pointer">
+                                <div class="flex items-center space-x-4">
+                                    <span class="w-8 h-8 flex items-center justify-center rounded-full bg-green-500/20 text-green-400 font-bold text-sm">05</span>
+                                    <div>
+                                        <h3 class="font-semibold text-lg">Creative Prompting</h3>
+                                        <p class="text-xs text-gray-500">Theme: From imagination to output • 3 Hours</p>
+                                    </div>
+                                </div>
+                                <svg class="w-5 h-5 text-gray-500 group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </summary>
+                            <div class="px-6 pb-6 pt-2 border-t border-white/5 text-sm text-gray-400">
+                                Story creation, idea generation, and problem-solving. Mini-project: Create a study planner or presentation outline using AI.
+                            </div>
+                        </details>
+
+                        <!-- Module 6 -->
+                        <details class="group glass-card rounded-2xl overflow-hidden">
+                            <summary class="flex justify-between items-center p-6 cursor-pointer">
+                                <div class="flex items-center space-x-4">
+                                    <span class="w-8 h-8 flex items-center justify-center rounded-full bg-red-500/20 text-red-400 font-bold text-sm">06</span>
+                                    <div>
+                                        <h3 class="font-semibold text-lg">Ethics & Responsible Use</h3>
+                                        <p class="text-xs text-gray-500">Theme: Smart users think critically • 1.5 Hours</p>
+                                    </div>
+                                </div>
+                                <svg class="w-5 h-5 text-gray-500 group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </summary>
+                            <div class="px-6 pb-6 pt-2 border-t border-white/5 text-sm text-gray-400">
+                                Hallucinations, bias, and plagiarism. Learn when NOT to use AI and how to fact-check AI responses.
+                            </div>
+                        </details>
+
+                        <!-- Module 7 -->
+                        <details class="group glass-card rounded-2xl overflow-hidden">
+                            <summary class="flex justify-between items-center p-6 cursor-pointer">
+                                <div class="flex items-center space-x-4">
+                                    <span class="w-8 h-8 flex items-center justify-center rounded-full bg-yellow-500/20 text-yellow-400 font-bold text-sm">07</span>
+                                    <div>
+                                        <h3 class="font-semibold text-lg">Final Challenge</h3>
+                                        <p class="text-xs text-gray-500">Theme: Demonstration of skill • 2 Hours</p>
+                                    </div>
+                                </div>
+                                <svg class="w-5 h-5 text-gray-500 group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </summary>
+                            <div class="px-6 pb-6 pt-2 border-t border-white/5 text-sm text-gray-400">
+                                Design a prompt for a real-world problem, iterate through improvements, and present the final output.
+                            </div>
+                        </details>
+                    </div>
+                    
+                    <button id="show-modules-btn" class="w-full py-4 text-blue-400 font-semibold border border-white/10 rounded-2xl hover:bg-white/5 transition-all">
+                        View All 7 Modules
+                    </button>
+                </div>
+                
+                <div class="hidden lg:block sticky top-32">
+                    <img src="https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&q=80&w=800" 
+                         alt="Future Tech" 
+                         class="rounded-[2rem] glass-card border-none opacity-80">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Learning Outcomes Section -->
+    <section class="py-24 px-6">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+                <div class="order-2 md:order-1">
+                    <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&q=80&w=800" 
+                         alt="Productivity" 
+                         class="rounded-3xl glass-card border-none">
+                </div>
+                <div class="order-1 md:order-2">
+                    <h2 class="text-4xl font-bold mb-8">Measurable <span class="gemini-gradient">Outcomes</span></h2>
+                    <div class="space-y-6">
+                        <div class="flex items-start space-x-4">
+                            <div class="p-3 bg-blue-500/10 rounded-xl text-blue-400">01</div>
+                            <p class="text-gray-300">Write clear, structured prompts that get accurate results every time.</p>
+                        </div>
+                        <div class="flex items-start space-x-4">
+                            <div class="p-3 bg-purple-500/10 rounded-xl text-purple-400">02</div>
+                            <p class="text-gray-300">Identify and correct AI hallucinations and misleading responses.</p>
+                        </div>
+                        <div class="flex items-start space-x-4">
+                            <div class="p-3 bg-pink-500/10 rounded-xl text-pink-400">03</div>
+                            <p class="text-gray-300">Use AI as a learning assistant for studies, presentations, and exam prep.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="py-24 px-6 bg-white/[0.01]">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-4xl font-bold mb-16 text-center">Frequently Asked <span class="gemini-gradient">Questions</span></h2>
+            <div class="space-y-4">
+                <details class="group glass-card rounded-2xl overflow-hidden">
+                    <summary class="flex justify-between items-center p-6 cursor-pointer select-none">
+                        <span class="font-semibold">Do I need any prior coding knowledge?</span>
+                        <svg class="w-5 h-5 text-gray-500 group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </summary>
+                    <div class="px-6 pb-6 text-gray-400 text-sm">
+                        No coding is required! Prompt Engineering is about logic, structure, and communication. It's accessible to anyone in any stream.
+                    </div>
+                </details>
+                <details class="group glass-card rounded-2xl overflow-hidden">
+                    <summary class="flex justify-between items-center p-6 cursor-pointer select-none">
+                        <span class="font-semibold">What tools will I learn?</span>
+                        <svg class="w-5 h-5 text-gray-500 group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </summary>
+                    <div class="px-6 pb-6 text-gray-400 text-sm">
+                        We primarily use ChatGPT, but we also cover Google Gemini, Claude, and Perplexity to show the differences in how they think and respond.
+                    </div>
+                </details>
+                <details class="group glass-card rounded-2xl overflow-hidden">
+                    <summary class="flex justify-between items-center p-6 cursor-pointer select-none">
+                        <span class="font-semibold">Will I get a certificate?</span>
+                        <svg class="w-5 h-5 text-gray-500 group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </summary>
+                    <div class="px-6 pb-6 text-gray-400 text-sm">
+                        Yes! You will receive a Certificate of Completion in Prompt Engineering Fundamentals upon finishing all modules and the final challenge.
+                    </div>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 border-t border-white/5 px-6">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center">
+            <div class="flex items-center space-x-3 mb-6 md:mb-0">
+                <div class="flex items-center justify-center w-7 h-7 rounded bg-gradient-to-tr from-blue-500 to-purple-600">
+                    <svg viewBox="0 0 24 24" class="w-4 h-4 text-white fill-current">
+                        <path d="M8 5v14l11-7zM20 12l-1.5 1.5L17 12l1.5-1.5zM15 5l-1.5 1.5L12 5l1.5-1.5zM15 19l-1.5 1.5L12 19l1.5-1.5z"/>
+                    </svg>
+                </div>
+                <span class="font-bold text-lg uppercase tracking-tight">Prompt Engineering</span>
+            </div>
+            <div class="text-gray-500 text-sm">
+                © 2024 Prompt Engineering Bootcamp. No Exams. No Memorization. Just Skills.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Toggle curriculum modules
+        const showBtn = document.getElementById('show-modules-btn');
+        const extraModules = document.getElementById('extra-modules');
+
+        if (showBtn && extraModules) {
+            showBtn.addEventListener('click', () => {
+                extraModules.classList.toggle('hidden');
+                if (extraModules.classList.contains('hidden')) {
+                    showBtn.textContent = 'View All 7 Modules';
+                } else {
+                    showBtn.textContent = 'Show Less';
+                    extraModules.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+            });
+        }
+
+        // Smooth scroll for nav links (fixed with existence checks)
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    e.preventDefault();
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // View details button scroll
+        const viewDetailsBtn = document.getElementById('view-details-btn');
+        if (viewDetailsBtn) {
+            viewDetailsBtn.addEventListener('click', () => {
+                const curriculumSection = document.getElementById('curriculum');
+                if (curriculumSection) {
+                    curriculumSection.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        }
+
+        // Intersection Observer for scroll reveal
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('opacity-100', 'translate-y-0');
+                    entry.target.classList.remove('opacity-0', 'translate-y-10');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.glass-card').forEach(el => {
+            el.classList.add('opacity-0', 'translate-y-10', 'transition-all', 'duration-1000');
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
